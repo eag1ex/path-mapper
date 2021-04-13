@@ -8,14 +8,14 @@
 
 ### About
 For targeting external resources and paths in local builds
-- When mapping files or configs to/from node_module npm packages to local build project
-- When using alternative files or configs instead of local ones we provide path or require() with data from that location
+* When mapping files or configs to/from node_module npm packages to local build project
+* When using alternative files or configs instead of local ones we provide path or require() with data from that location
 
 
 #### Example
 You have a project that uses external config instead of local, so you want to grab that file or data  instead. Or you need a different path to a file that is not from local build, and looking to external resources for local build usage.
 
-- `pm,add,remove` are part `pathMapper()`, can be exported   
+* `pm,add,remove` are part `pathMapper()`, can be exported   
 
 ```js
 const {xrequire,pm,add,cpm, remove,MapperConfigModel,pathMapper} = require('path-mapper')
@@ -99,7 +99,7 @@ pm()
 
 #### Exporting caveat example:
 Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
-- We want to be able to get Intellisense on exported paths so we know what is being mapped. When using caveat you are extending base `MapperModel` with your own, caveat example shows how to do it. 
+* We want to be able to get Intellisense on exported paths so we know what is being mapped. When using caveat you are extending base `MapperModel` with your own, caveat example shows how to do it. 
 
 ```js
     const {CutomMapperModel, getter, pathMapper} = require('./caveat.example') // << extended from `path-mapper`
