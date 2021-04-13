@@ -8,6 +8,7 @@
 
 ### About
 For targeting external resources and paths in local builds
+
 * When mapping files or configs to/from node_module npm packages to local build project
 * When using alternative files or configs instead of local ones we provide path or require() with data from that location
 
@@ -99,6 +100,7 @@ pm()
 
 #### Exporting caveat example:
 Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
+
 * We want to be able to get Intellisense on exported paths so we know what is being mapped. When using caveat you are extending base `MapperModel` with your own, caveat example shows how to do it. 
 
 ```js
