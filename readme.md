@@ -21,17 +21,20 @@ You have a project that uses external config instead of local, so you want to gr
 ```js
 const {xrequire,pm,add,cpm, remove,MapperConfigModel,pathMapper} = require('path-mapper')
 
-
+// ---- non extended caveat example:   
   
-// non extended caveat example:     
 const paths= {
     root:'project/',
-    base:'project/source',
     path:'project/source/asset',
 }
 
+const another= {
+    base:'project/source',
+}
+
 add(paths) // returns boolean
-remove('root') // returns boolean
+add(another) // returns boolean
+remove('root') // path removed
 
 pm()
 /** returns:

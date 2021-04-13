@@ -6,11 +6,16 @@ function PathMapperMainExample() {
 
     const paths= {
         root:'project/',
-        base:'project/source',
         path:'project/source/asset',
     }
 
+    const another= {
+        base:'project/source',
+    }
+
     add(paths) // returns boolean
+    add(another) // returns boolean
+
     remove('root') // path removed
     console.log(pm())
 }
