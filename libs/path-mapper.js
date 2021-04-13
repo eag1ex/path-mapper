@@ -1,6 +1,6 @@
 // @ts-nocheck
 
-const { objectSize, copy, isString, isClass } = require('x-utils-es/umd')
+const { objectSize, copy, isString, isClass,warn } = require('x-utils-es/umd')
 const MapperModel = require('./MapperModel')
 const {updateObjectLevels} = require('./utils')
 
@@ -47,10 +47,18 @@ const pathMapper = (CustomMapper) => {
                 } else {
                     if (debug) warn('[pathMapper]', 'CustomMapper must be extended from MapperModel, ..defaulting')
                 }
-            } else {
+               
+            } 
+                
+            if(CustomMapper && !pmData){
+               if(debug) warn('[pathMapper]', 'CustomMapper must be extended from MapperModel, ..defaulting')
+            }
+
+            if(!pmData){
                 pmData = new MapperModel(copy(mapPath), debug).__update()
             }
 
+            if(!pmData) return false
             if (!pmData.__updated) return false
 
             delete pmData.__updated

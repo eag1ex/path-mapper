@@ -26,6 +26,7 @@ class CutomMapperModel extends MapperModel {
     }
 }
 
+//NOTE  Important part where we apply changes to the plugin and export it as caveat
 const ppm = pathMapper(CutomMapperModel)
 
 /**

@@ -22,7 +22,7 @@ You have a project that uses external config instead of local, so you want to gr
 const {xrequire,pm,add,cpm, remove,MapperConfigModel,pathMapper} = require('path-mapper')
 
 // ---- non extended caveat example:   
-  
+
 const paths= {
     root:'project/',
     path:'project/source/asset',
@@ -48,9 +48,9 @@ pm()
 
 
 /**
-* 
+* @param debug // to check warning
 **/
-pm() instanceof MapperModel // true
+pm(debug) instanceof MapperModel // true
 
 
 /**
@@ -94,10 +94,11 @@ add(projectOrProp)
 
 
 /**
- * - Removes projectOrProp by name from global.pm scope
+ * @param propName target by name from global.pm scope
+ * @param debug // to check warning
  * @returns `boolean`
 **/
-remove(prop)
+remove(propName,debug)
 
   
 
