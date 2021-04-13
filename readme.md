@@ -26,8 +26,6 @@ const {xrequire,pm,add,cpm, remove,MapperConfigModel,pathMapper} = require('path
 pm() instanceof MapperModel // true
 
 
-
-
 /**
  * - Member or node.js module.require
  * - will not throw error when module is not found, and return `undefined`
@@ -41,6 +39,7 @@ xrequire('./indexsde4','ERR_NO_THROW') // returns undefined
  * - gets all available paths from global.pm and returns it as a model of MapperConfigModel{}
  * @returns `MapperConfigModel{}` mapped paths via ( global.pm )
 **/
+
 pm()
 
 
@@ -53,8 +52,11 @@ pm()
  * @param {Object} CustomMapper provide own `Custom Mapper` extended from  `require('path-mapper').MapperModel`
  * @returns `CustomMapper{}` mapped paths via ( global.pm )
  */
+
 cpm(CustomMapper) 
 pm() instanceof CustomMapper // true
+
+
 
 /**
  * Add project or prop to global.pm ( path mapper ) that is configured to accept those properties in MapperConfigModel{}
