@@ -117,7 +117,6 @@ Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
         root:'project/',
         base:'project/source',
         path:'project/source/asset',
-
         megaProject: {
             megaPathA: '/path1/path2',
             megaPathB: '/path1/path2',

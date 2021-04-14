@@ -1,5 +1,5 @@
 
-//PathMapperMainExample()
+PathMapperMainExample()
 //NOTE assigned path data on global scope at: `global.pm{...}`, refer to MapperModer for Intellisense
 function PathMapperMainExample() {
     const { add, pm, remove, MapperModel } = require('./')
@@ -12,20 +12,19 @@ function PathMapperMainExample() {
     }
 
     const another= {
-        base:'project/source',
+       //base:'project/source',
         customPathByforce:'custom/secret'
     }
 
-    add(paths,allowForeignProps) // returns boolean
-    add(another,allowForeignProps) // returns boolean
-
-    remove('root') // path removed
-    console.log(pm())
+   // add(paths,allowForeignProps) // returns boolean
+   add(another,allowForeignProps) // returns boolean
+   // remove('root') // path removed
+    console.log(pm(true))
 }
 
 
 
-PathMapperCaveatExtended()
+//PathMapperCaveatExtended()
 // NOTE  assigned path data on global scope at: `global.pm{...}`, refer to MapperModer for Intellisense
 function PathMapperCaveatExtended() {
     const { CutomMapperModel, getter, pathMapper } = require('./caveat.example')

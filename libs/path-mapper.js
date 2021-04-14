@@ -73,12 +73,13 @@ const pathMapper = (CustomMapper,allowForeignProps=false) => {
             if(!pmData){    
                 pmData = new MapperModel(copy(mapPath), allForeignProps,false,debug).__update()
             }
-
+              
+          
             if(!pmData) return false
             if (!pmData.__updated) return false
 
             delete pmData.__updated
-            
+          
             // make sure no undefineds are provided 
             mapPath = updateObjectLevels(copy(pmData))
 

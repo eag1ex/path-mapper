@@ -45,14 +45,19 @@ exports.assingThis = function(params={},asNew, allowForeignParams){
             if (asNew) return
             if (isFunction(this[k])) return
             if (k === '__updated' || k === '__entity' || k === '__update' || k === '__opts') return
-
-            if (isObject(val1)) {
+           
+            if (isObject(val1)) {          
                 Object.entries(val1).forEach(([kk, val2]) => {
                    if(!this[k]) this[k]={}
-                   else this[k][kk] = val2
+                   this[k][kk] = val2
+                   inx++
                 })
             }
-            else if(!this[k] && val1) this[k] = val1
+            else if(!this[k] && val1) {
+                
+                this[k] = val1
+                inx++
+            }
         })
     }
 
