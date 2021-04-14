@@ -27,7 +27,7 @@ function PathMapperMainExample() {
 PathMapperCaveatExtended()
 // NOTE  assigned path data on global scope at: `global.pm{...}`, refer to MapperModer for Intellisense
 function PathMapperCaveatExtended() {
-    const { CutomMapperModel, getter, pathMapper } = require('./caveat.example')
+    const { CutomMapperModel, getter, pathMapper } = require('./path-caveat')
 
     const allowForeignProps = true
     const mapPaths = {

@@ -103,12 +103,12 @@ remove(propName,debug)
 
 
 #### Exporting caveat example:
-Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
+Extended Caveat from `Path Mapper` located in `./path-caveat`.
 
 * We want to be able to get Intellisense on exported paths so we know what is being mapped. When using caveat you are extending base `MapperModel` with your own, caveat example shows how to do it. 
 
 ```js
-    const {CutomMapperModel, getter, pathMapper} = require('./caveat.example') // << extended from `path-mapper`
+    const {CutomMapperModel, getter, pathMapper} = require('./path-caveat') // << extended from `path-mapper`
     // add absolute file paths that can be targeted
 
     const allowForeignProps = true

@@ -13,6 +13,6 @@
   "paths": {
     "*": ["node_modules/*"]
   },
-  "include": ["libs","index.js", "caveat.example.js","example.js"],
+  "include": ["libs","index.js", "path-caveat","example.js"],
   "exclude": ["node_modules", "assets","dist"]
 }

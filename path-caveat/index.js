@@ -1,8 +1,8 @@
 /**
- * - Example caveat on how to extend path-mapper to own use with personalized MapperModel
+ * - Example caveat on how to extend path-mapper to own use with personalised MapperModel
  */
 
-const { MapperModel, pathMapper } = require('.')
+const { MapperModel, pathMapper } = require('..')
 
 /**
  * @CutomMapperModel
