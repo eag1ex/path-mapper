@@ -48,10 +48,14 @@ pm()
 
 
 /**
-* @param debug // to check warning
+ * - gets all available paths from global.pm and returns it as a model of MapperConfigModel{}
+ * @param allowForeignProps force return all available props, not just those set by model schema. It is usefull when we add() paths elsewhere in application that do not belong and we want to see what they are
+ * @param debug // to check warning
+ * @returns `MapperConfigModel{}` mapped paths via ( global.pm )
 **/
-pm(debug) instanceof MapperModel // true
+pm(true) 
 
+pm() instanceof MapperModel // true
 
 /**
  * - Member or node.js module.require
@@ -60,14 +64,6 @@ pm(debug) instanceof MapperModel // true
 **/
 xrequire('./indexsde4','ERR_NO_THROW') // returns undefined
 
-
-/**
- * @pm
- * - gets all available paths from global.pm and returns it as a model of MapperConfigModel{}
- * @returns `MapperConfigModel{}` mapped paths via ( global.pm )
-**/
-
-pm()
 
 
 /**
@@ -81,16 +77,17 @@ pm()
  */
 
 cpm(CustomMapper) 
-pm() instanceof CustomMapper // true
+cpm() instanceof CustomMapper // true
 
 
 
 /**
  * Add project or prop to global.pm ( path mapper ) that is configured to accept those properties in MapperConfigModel{}
  * @param projectOrProp
+ * @param allowForeignProps force to accept props not part of model schema
  * @returns `boolean`
 **/
-add(projectOrProp)
+add(projectOrProp,allowForeignProps)
 
 
 /**
@@ -114,6 +111,7 @@ Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
     const {CutomMapperModel, getter, pathMapper} = require('./caveat.example') // << extended from `path-mapper`
     // add absolute file paths that can be targeted
 
+    const allowForeignProps = true
     const mapPaths = {
 
         root:'project/',
@@ -123,6 +121,7 @@ Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
         megaProject: {
             megaPathA: '/path1/path2',
             megaPathB: '/path1/path2',
+            secretPath: 'custom/path' // path not part of Custom model schema can be added when {allowForeignProps} is set
         }
     }
 
@@ -130,14 +129,15 @@ Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
         sideProject: {
             sidePathA: '/path3/path4',
             sidePathb: '/path3/path4',
+            secretPath: 'custom/path2' // not added because {allowForeignProps} wasnt set!
         }
     }
 
     // add global path somethere in your project outter  
-    pathMapper.add(mapPaths) // returns true
+    pathMapper.add(mapPaths,allowForeignProps) // returns true
 
     // adding another to a different project
-    pathMapper.add(another) // returns true
+    pathMapper.add(another,false) // returns true
 
     pathMapper.remove('root') // remove path from (global) global.pm scope 
 
@@ -149,11 +149,14 @@ Extended Caveat from `Path Mapper` located in `./caveat.example.js`.
             base: 'project/source',
             path: 'project/source/asset',
             root: undefined,
-            megaProject: { megaPathA: '/path1/path2', megaPathB: '/path1/path2' },
+            megaProject: { megaPathA: '/path1/path2', megaPathB: '/path1/path2', secretPath: 'custom/path' },
             sideProject: { sidePathA: '/path3/path4', sidePathb: '/path3/path4' }
         }
     **/
     getter() instanceof CutomMapperModel // true
+
+
+    // getter() is an alias of pm() which has a global setting to disallow output of custom paths that do not exist on model schema, we just need to set `pm(true)` which will ignore {allowForeignProps} conditions 
 
 ```
 

@@ -4,7 +4,12 @@ const { objectSize, copy, isString, isClass,warn } = require('x-utils-es/umd')
 const MapperModel = require('./MapperModel')
 const {updateObjectLevels} = require('./utils')
 
-const pathMapper = (CustomMapper) => {
+/**
+ * 
+ * @param {*} CustomMapper 
+ * @param {*} allowForeignProps force to allow properties not set by model schema
+ */
+const pathMapper = (CustomMapper,allowForeignProps=false) => {
     // assigning empty defaults, and static presets
     if (!global.pm) global.pm = {}
 
@@ -13,10 +18,15 @@ const pathMapper = (CustomMapper) => {
          * - Gets all available paths on `global.pm (path-mapper/MapperModel/CutomMapperModel)`
          * - Always returns all static props as per Model definition
          */
-        get: (debug = false) => {
+        get: (_allowForeignProps,debug = undefined) => {
+
+            /** force to accept props not part of model schema, (offsets default settings) */
+            _allowForeignProps = _allowForeignProps !== undefined ? _allowForeignProps : allowForeignProps
+ 
             if (CustomMapper) {
                 if (isClass(CustomMapper) && CustomMapper.__entity==='MapperModel') {
-                    let mapper = new CustomMapper(global.pm, debug).__update()
+                   
+                    let mapper = new CustomMapper(global.pm, _allowForeignProps,false,debug).__update()
                     delete mapper.__updated
                     return mapper
                     
@@ -24,7 +34,8 @@ const pathMapper = (CustomMapper) => {
                     if (debug) warn('[pathMapper]', 'CustomMapper must be extended from MapperModel, ..defaulting')
                 }
             }
-            let mapper = new MapperModel(global.pm, debug).__update()
+           
+            let mapper = new MapperModel(global.pm, _allowForeignProps,false,debug).__update()
             delete mapper.__updated
             return mapper
                     
@@ -35,14 +46,19 @@ const pathMapper = (CustomMapper) => {
          * - mapPaths must reference static presets set in `MapperModel{}` or your own declared via caveat, reffer to examples in `./caveat.example.js`
          * - Can extend when providing own `Custom{MapperModel}` from `pathMapper( Custom{MapperModel} )`
          * @param {Object} mapPath
+         * @param {*} _allowForeignProps force to accept props not part of model schema, (offsets default settings)
          * @returns `Boolean`
          */
-        add: (mapPath = {}, debug = false) => {
+        add: (mapPath = {}, _allowForeignProps=undefined, debug = false) => {
+
+            let allForeignProps = _allowForeignProps!==undefined ? _allowForeignProps:allowForeignProps
+     
             if (!objectSize(mapPath)) return false
             let pmData
             if (CustomMapper) {
                 if (isClass(CustomMapper) && CustomMapper.__entity === 'MapperModel') {
-                    let mapper = new CustomMapper(copy(mapPath), debug).__update()
+                    
+                    let mapper = new CustomMapper(copy(mapPath),allForeignProps, false,debug).__update()
                     pmData = mapper         
                 } else {
                     if (debug) warn('[pathMapper]', 'CustomMapper must be extended from MapperModel, ..defaulting')
@@ -54,8 +70,8 @@ const pathMapper = (CustomMapper) => {
                if(debug) warn('[pathMapper]', 'CustomMapper must be extended from MapperModel, ..defaulting')
             }
 
-            if(!pmData){
-                pmData = new MapperModel(copy(mapPath), debug).__update()
+            if(!pmData){    
+                pmData = new MapperModel(copy(mapPath), allForeignProps,false,debug).__update()
             }
 
             if(!pmData) return false
@@ -66,7 +82,6 @@ const pathMapper = (CustomMapper) => {
             // make sure no undefineds are provided 
             mapPath = updateObjectLevels(copy(pmData))
 
-           
 
             global.pm = {
                 ...global.pm,
@@ -97,9 +112,10 @@ const pathMapper = (CustomMapper) => {
  * @memberof pathMapper().get
  * - Grab currently available paths/data/statics from `global.pm` (path mapper) scope
  */
-const pm = (debug = false) => {
-    let pm = pathMapper().get(debug)
-    if (!(pm instanceof MapperModel)) return new MapperModel(global.pm || {}, false).__update()
+const pm = (allowForeignProps,debug = false) => {
+  
+    let pm = pathMapper(null, true).get(allowForeignProps,debug)
+    if (!(pm instanceof MapperModel)) return new MapperModel(global.pm || {}, allowForeignProps, false, debug).__update()
     return pm
 }
 
@@ -119,7 +135,7 @@ const cpm = (CustomMapper, debug = false) => {
 exports.cpm = cpm
 exports.xrequire = require('./xrequire')
 exports.pathMapper = pathMapper
-exports.add = pathMapper().add
+exports.add = (mapPath, allowForeignProps, debug)=> pathMapper(null,allowForeignProps).add(mapPath, debug)
 exports.remove = pathMapper().remove
 exports.pm = pm
 exports.MapperModel = MapperModel

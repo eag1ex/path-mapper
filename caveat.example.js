@@ -9,9 +9,9 @@ const { MapperModel, pathMapper } = require('.')
  * @extends MapperModel
  */
 class CutomMapperModel extends MapperModel {
-    constructor(params, debug, asNew) {
-        super(params, debug, asNew)
-
+    constructor(params, allowForeignProps, asNew,debug) {
+        super(params, allowForeignProps, asNew,debug)
+        
         // provide own caveat mapper here so intellisense can be visible
         this.megaProject = {
             megaPathA: undefined,
@@ -25,9 +25,13 @@ class CutomMapperModel extends MapperModel {
         this.__update()
     }
 }
+/**
+ * Allow adding properties that do no exist in current Model schema
+ */
+const allowForeignProps = true
 
 //NOTE  Important part where we apply changes to the plugin and export it as caveat
-const ppm = pathMapper(CutomMapperModel)
+const ppm = pathMapper(CutomMapperModel,allowForeignProps)
 
 /**
  * @CustomPathMapper  ( global.pm )
@@ -36,8 +40,8 @@ const ppm = pathMapper(CutomMapperModel)
  * - Custom declaration providing own `Custom{MapperModel}` model
  * @param {Object} CustomMapper provide own `Custom Mapper` extended from  `require('path-mapper').MapperModel`
  */
-const pm = (debug = false) => {
-    let pm = ppm.get(debug)
+const pm = (_allowForeignProps,debug = false) => {
+    let pm = ppm.get(_allowForeignProps,debug)
     if (!(pm instanceof CutomMapperModel)) return undefined
     return pm
 }

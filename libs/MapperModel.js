@@ -1,4 +1,4 @@
-const { warn } = require('x-utils-es/umd')
+const { warn, isObject } = require('x-utils-es/umd')
 const { assingThis } = require('./utils')
 
 
@@ -8,17 +8,19 @@ const { assingThis } = require('./utils')
  * - If providing paths or data that belong to specific project/package please assing to {project} first
  * - Use the same name in camelCase as it appears on package.js
  * @param {*} params
- * @param {*} debug
+ * @param {*} allowForeignProps Allow adding properties that do no exist in current Model schema
  * @param {*} asNew only create empty ConfigModel
+ * @param {*} debug
  */
 class MapperModel {
-    constructor(params = {}, debug, asNew = false) {
-
+    constructor(params = {}, allowForeignProps=false, asNew = false, debug) {
+        if(!isObject(params)) params = {}
         // statics
         MapperModel.__opts = {
             params,
             debug,
-            asNew
+            asNew,
+            allowForeignProps
         }
 
         // Some preset projects can be added
@@ -31,7 +33,7 @@ class MapperModel {
 
     __update() {
         // assing values only when all static props aavailable
-        let inx = assingThis.apply(this, [MapperModel.__opts.params, MapperModel.__opts.asNew])
+        let inx = assingThis.apply(this, [MapperModel.__opts.params, MapperModel.__opts.asNew,MapperModel.__opts.allowForeignProps])
 
         // post value that gets set when up updated something
         this.__updated = undefined

@@ -1,14 +1,15 @@
 
-const {objectSize, isObject, isFunction} = require('x-utils-es/umd')
+const {objectSize, isObject, isFunction,copy} = require('x-utils-es/umd')
 
 /**
  * - assing/update this in class scope 
  * - method extends the class
  * @param {*} params 
+ * @param 
  */
-exports.assingThis = function(params={},asNew){
+exports.assingThis = function(params={},asNew, allowForeignParams){
     let inx = 0
-
+    params = copy(params)
     const thisHasKey = (match)=>{
         let keys = Object.keys(this)
         return keys.filter(n=>n===match).length
@@ -38,6 +39,23 @@ exports.assingThis = function(params={},asNew){
             }
         }
     })
+
+    if (allowForeignParams) {
+        Object.entries(params).forEach(([k, val1]) => {
+            if (asNew) return
+            if (isFunction(this[k])) return
+            if (k === '__updated' || k === '__entity' || k === '__update' || k === '__opts') return
+
+            if (isObject(val1)) {
+                Object.entries(val1).forEach(([kk, val2]) => {
+                   if(!this[k]) this[k]={}
+                   else this[k][kk] = val2
+                })
+            }
+            else if(!this[k] && val1) this[k] = val1
+        })
+    }
+
     return inx
 }
 
@@ -46,22 +64,25 @@ exports.assingThis = function(params={},asNew){
  * Update all Object levels, and make sure nested undefineds are not exported
  * @param {*} data{} 
  */
-const updateObjectLevels = (data={})=>{
-    let n={}
+const updateObjectLevels = (data = {}) => {
+    let n = {}
     function iterate(obj) {
         for (let k in obj) {
             if (obj.hasOwnProperty(k)) {
-                if (typeof obj[k] == "object" ) {
-                    if(objectSize( obj[k]))  n[k] = obj[k]
-                    iterate(obj[k]);
-                } else {
-                    if( obj[k]!==undefined) n[k] = obj[k]                 
-                }
+                if (typeof obj[k] == 'object') {
+                    if (objectSize(obj[k])) n[k] = obj[k]
+                    iterate(obj[k])
+                } 
             }
         }
     }
     iterate(data)
-   return n
+
+    for (let k in data) {
+        if(!isObject(data[k])) n[k]=data[k]
+    }
+
+    return n
 }
 
 exports.updateObjectLevels = updateObjectLevels
