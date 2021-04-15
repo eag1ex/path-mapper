@@ -1,6 +1,6 @@
 {
   "name": "path-mapper",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "For targetig external resources and paths in local builds",
   "main": "./libs/path-mapper.js",
   "scripts": {

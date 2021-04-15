@@ -71,20 +71,16 @@ exports.assingThis = function(params={},asNew, allowForeignParams){
  */
 const updateObjectLevels = (data = {}) => {
     let n = {}
-    function iterate(obj) {
-        for (let k in obj) {
-            if (obj.hasOwnProperty(k)) {
-                if (typeof obj[k] == 'object') {
-                    if (objectSize(obj[k])) n[k] = obj[k]
-                    iterate(obj[k])
-                } 
-            }
-        }
-    }
-    iterate(data)
 
     for (let k in data) {
-        if(!isObject(data[k])) n[k]=data[k]
+        if (isObject(data[k])) {
+            Object.entries(data[k]).forEach(([kk, val]) => {
+                if (val !== undefined) {
+                    if (!n[k]) n[k] = {}
+                    n[k][kk] = val
+                }
+            }, {})
+        } else if (data[k] !== undefined) n[k] = data[k]
     }
 
     return n

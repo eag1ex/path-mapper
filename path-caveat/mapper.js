@@ -15,6 +15,8 @@ require('../.').add(
         sideProject: {
             sidePathA: '/some/path',
             sidePathb: '/some/path',
+            ws:{port:5000},
+            zmq:{tcp:'tcp://'}
         },
     },
     allowForeignProps

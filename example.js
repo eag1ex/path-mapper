@@ -16,7 +16,7 @@ function PathMapperMainExample() {
         customPathByforce:'custom/secret'
     }
 
-    add(paths,allowForeignProps) // returns boolean
+add(paths,allowForeignProps) // returns boolean
    add(another,allowForeignProps) // returns boolean
    // remove('root') // path removed
     console.log(pm(false))
@@ -27,6 +27,7 @@ function PathMapperMainExample() {
 PathMapperCaveatExtended()
 // NOTE  assigned path data on global scope at: `global.pm{...}`, refer to MapperModer for Intellisense
 function PathMapperCaveatExtended() {
+
     const { CutomMapperModel, getter, pathMapper } = require('./path-caveat')
 
     const allowForeignProps = true
@@ -47,17 +48,15 @@ function PathMapperCaveatExtended() {
         sideProject: {
             sidePathA: '/path3/path4',
             sidePathb: '/path3/path4',
-            sidePathc:{
-                another:'a/b'
-            }
-         
+            ws: { port: 5000 },
+            zmq: { tcp: 'tcp://' },
         },
-        customPathByforce:'custom/secret'
+        customPathByforce: 'custom/secret',
     }
 
     pathMapper.add(mapPaths,allowForeignProps)
-    pathMapper.add(another,true)
+    pathMapper.add(another,allowForeignProps)
     pathMapper.remove('base')
  
-    console.log(getter())
+    console.log(getter(true))
 }
