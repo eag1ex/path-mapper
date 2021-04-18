@@ -3,7 +3,7 @@
 const { objectSize, copy, isString, isClass,warn } = require('x-utils-es/umd')
 const MapperModel = require('./MapperModel')
 const {updateObjectLevels} = require('./utils')
-
+const deepMerge = require('deepmerge')
 /**
  * 
  * @param {*} CustomMapper 
@@ -83,10 +83,10 @@ const pathMapper = (CustomMapper,allowForeignProps=false) => {
             // make sure no undefineds are provided 
             mapPath = updateObjectLevels(copy(pmData))
 
-
-            global.pm = {
-                ...global.pm,
-                ...mapPath,
+            
+            global.pm = {    
+                // { global.pm } should always remain last, so first execution takes affect
+                ...deepMerge.all([ mapPath, global.pm ])
             }
             return true
         },
